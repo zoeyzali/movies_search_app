@@ -65,6 +65,7 @@
                     border-radius: 0.3rem;
                     outline: none;
                     cursor: pointer;
+                    font-size: 0.8em;
                 }
 
                 .imdb__svg,
@@ -82,7 +83,7 @@
                         content: url("../assets/2.Logos/logo-imdb.svg");
                         padding: 12px;
                         background-color: $mainYellow;
-                        margin-inline-end: 0.4rem;
+                        margin-inline-end: 0.3rem;
                     }
                 }
 
@@ -91,7 +92,7 @@
                         content: url("../assets/2.Logos/logo-rotten-tomatoes.svg");
                         padding: 12px;
                         background-color: $mainRed;
-                        margin-inline-end: 0.4rem;
+                        margin-inline-end: 0.3rem;
                     }
                 }
 
@@ -128,6 +129,7 @@
                 text-align: justify;
                 line-height: 22px;
                 max-width: fit-content;
+                letter-spacing: -0.2px;
             }
 
             .castncrew__wrapper {

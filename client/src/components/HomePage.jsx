@@ -20,7 +20,7 @@ export const HomePage = () => {
 
     useEffect( () => { focusSearch.current.focus() }, [] )
 
-    const handleSubmit = async ( query, controller ) => {
+    const handleSearch = async ( query, controller ) => {
         // e.preventDefault()
         // setLoading( true )
         const response = await fetch( `${baseURL}/search/movie?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}&query=${query}`, { signal: controller.signal } )
@@ -50,7 +50,7 @@ export const HomePage = () => {
             await sleep( 350 )
             setError( false )
             if ( currentQuery ) {
-                const movies = await handleSubmit( query, controller )
+                const movies = await handleSearch( query, controller )
                 setLoading( false )
                 setMovies( movies )
             }
@@ -60,17 +60,10 @@ export const HomePage = () => {
             currentQuery = false
             controller.abort()
         }
-        // setTimeout( () => {
-        //     // setCountInTimeout( countRef.current )
-        // }, 2000 )
-        // // setCount( 5 )
-        // setLoading( false )
-        // // clearTimeout()
+
     }, [query] )
 
 
-    /** const getJokes = async (query, controller) => {
-const results = await fetch(<url>, { signal: controller.signal, <other options>) */
     return (
         <div className="home__wrapper">
             <div className="logo" />
