@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+$mainYellow: #FF9F1C;
+$mainRed: #FF4040;
+$mainGreen: #2EC4B6;
+$mainDark: #0A1014;
+$mainGrey: #1B2329;
+$midGrey: #353F4C;
+$lightGrey: #7A8C99;
+$mainWhite: #fff;
+$mainFont: 'Roboto',
+sans-serif;
+
+:root {
+    --hightlight: $mainYellow;
+    --accent: $mainRed;
+    --active: $mainGreen;
+    --default: $mainWhite;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    font-size: 15px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.16px;
+    color: $mainDark;
+    margin: 0;
+}
+
+.container {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1300px;
+    background-color: $mainDark;
+    min-height: 100vh;
+}
+
+.logo {
+    // padding: 0.5rem;
+    margin-top: 0.5rem;
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 10px;
+
+    &:after {
+        content: url("../assets/2.Logos/logo.svg");
+    }
+}
+
+.error__wrapper,
+.loading__wrapper {
+    margin: 0 auto;
+    // background-color: $mainWhite;
+    padding: 1rem;
+    color: $midGrey;
+
+    h3 {
+        letter-spacing: 0.2rem;
+    }
+}
+
+
+h1 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 70pt;
+    letter-spacing: 0.8px;
+    line-height: 70px;
+    text-transform: capitalize;
+}
+
+h2 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 24pt;
+    letter-spacing: 0.2px;
+    line-height: 34px;
+    color: $lightGrey;
+
+}
+
+h3 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 20pt;
+    letter-spacing: 0.8px;
+    line-height: 26px;
+    color: $lightGrey;
+}
+
+button {
+    padding: 12px 16px 12px 12px;
+    outline: none;
+}
+
+
+@media screen and (max-width: 600px) {
+
+    h1 {
+        font-size: 50pt;
+        line-height: 55px;
+    }
+
+    h3 {
+        line-height: 20px;
+    }
+}
