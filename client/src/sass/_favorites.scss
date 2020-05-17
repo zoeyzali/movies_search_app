@@ -1,0 +1,63 @@
+.favorites__wrapper {
+    margin: 0 auto;
+    width: 100%;
+    min-height: 100vh;
+    padding: 1rem;
+
+    .favorites__inner {
+        margin-top: 0.5rem;
+        padding: 0 0.5rem;
+        text-align: center;
+
+        .favorites__list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+
+            .favorites__card {
+                box-shadow: 0.05em .125em .125em rgba(0, 0, 0, .1);
+                position: relative;
+                margin-inline-end: 0.8rem;
+                margin-block-end: 1rem;
+
+                figure {
+                    max-width: 200px;
+                    padding: 0;
+                    margin: 0;
+                    // position: relative;
+
+                    img {
+                        height: 100%;
+                        width: 100%;
+                        object-fit: cover;
+                        border-radius: 0.2rem;
+                    }
+                }
+
+                button {
+                    padding: 8px;
+                    outline: none;
+                    border: none;
+                    cursor: pointer;
+                }
+
+                .heart__svg.extra__btn {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    border-radius: 50%;
+                    height: 40px;
+                    width: 40px;
+                    color: $mainWhite;
+                    background-color: $mainRed;
+
+                    &:before {
+                        content: url("../assets/1.Icons/icon-heart-full.svg");
+
+                    }
+                }
+            }
+        }
+    }
+}

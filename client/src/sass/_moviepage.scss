@@ -11,6 +11,11 @@
         &:after {
             content: url("../assets/1.Icons/icon-arrow-grey.svg");
         }
+
+        &:hover {
+            content: url("../assets/1.Icons/icon-arrow-white.svg");
+            margin-bottom: 0.8rem;
+        }
     }
 
     .inner__wrapper {
@@ -26,12 +31,6 @@
             color: $mainWhite;
             margin-inline-end: 0.5rem;
 
-            // .btn__row,
-            // .text__content,
-            // h1,
-            // .misc__info {
-            //     margin-inline-start: 0.5rem;
-            // }
 
             .misc__info {
                 display: flex;
@@ -66,6 +65,12 @@
                     outline: none;
                     cursor: pointer;
                     font-size: 0.8em;
+
+                }
+
+                .extra__btn {
+                    background-color: $lightGrey;
+                    color: $mainWhite;
                 }
 
                 .imdb__svg,
@@ -81,7 +86,7 @@
                 .imdb__svg {
                     &:before {
                         content: url("../assets/2.Logos/logo-imdb.svg");
-                        padding: 12px;
+                        padding: 10px 12px;
                         background-color: $mainYellow;
                         margin-inline-end: 0.3rem;
                     }
@@ -90,7 +95,7 @@
                 .rottenTomato__svg {
                     &:before {
                         content: url("../assets/2.Logos/logo-rotten-tomatoes.svg");
-                        padding: 12px;
+                        padding: 10px 12px;
                         background-color: $mainRed;
                         margin-inline-end: 0.3rem;
                     }
@@ -102,10 +107,11 @@
                     color: $lightGrey;
                     background-color: $mainDark;
                     border: 1px solid $midGrey;
+                    padding: 8px 10px;
 
                     &:before {
                         content: url("../assets/1.Icons/icon-heart-grey.svg");
-                        margin-inline-end: 0.4rem;
+                        margin-inline-end: 0.3rem;
                     }
                 }
 
@@ -117,16 +123,17 @@
                     border: 1px solid $midGrey;
                     outline: none;
                     text-transform: uppercase;
+                    padding: 8px 10px;
 
                     &:before {
                         content: url("../assets/1.Icons/icon-heart-full.svg");
-                        margin-inline-end: 0.4rem;
+                        margin-inline-end: 0.3rem;
                     }
                 }
             }
 
             .text__content {
-                text-align: justify;
+                text-align: left;
                 line-height: 22px;
                 max-width: fit-content;
                 letter-spacing: -0.2px;

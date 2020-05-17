@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { MoviesContext } from '../context/MoviesContext'
 
 const tmdbKey = process.env.REACT_APP_TMDB_KEY
 const baseURL = process.env.REACT_APP_BASE_URL
@@ -11,17 +12,18 @@ export const MoviePage = ( { match } ) => {
     const [movie, setMovie] = useState( {} )
     const [credits, setCredits] = useState()
     const posterUrl = `https://image.tmdb.org/t/p/w500`
-    const [clicked, setClicked] = useState( false )
+    const { addToFavorites, favorited } = useContext( MoviesContext )
 
     useEffect( () => {
         const fetchMovieDetails = async () => {
             const response = await fetch( `${baseURL}/movie/${id}?api_key=${tmdbKey}&language=en-US&include_adult=false&append_to_response=videos,credits,keywords,release_dates` )
             const result = await response.json()
-            console.log( result, "details response" )
+            // console.log( result, "details response" )
             setMovie( result )
             setCredits( result.credits )
         }
         fetchMovieDetails()
+        // eslint-disable-next-line
     }, [id] )
 
     const mappCast = () => {
@@ -50,7 +52,6 @@ export const MoviePage = ( { match } ) => {
         return [genresList]
     }
 
-
     // one hot of mess!  // varied and incomplete data // to be reviewed
     const certificationsMapped = () => {
         const certificationsArr = movie.release_dates && movie.release_dates.results.map( ( result, i ) => {
@@ -63,11 +64,6 @@ export const MoviePage = ( { match } ) => {
         return certificationsArr
     }
 
-
-    const toggleFavorite = () => {
-        setClicked( !clicked )
-    }
-
     const getRatingPercentage = () => {
         let maxRating = movie.vote_count * 10
         let totalRatings = movie.vote_average * movie.vote_count
@@ -75,6 +71,17 @@ export const MoviePage = ( { match } ) => {
         // console.log( "maxRating", maxRating, "totalRatings", totalRatings, "percentage: ", percentage )
         return percentage
     }
+
+    const [favoriteClicked, setFavoriteClicked] = useState( false )
+
+
+    const toggleFavoriteBtn = ( id ) => {
+        const filtered = favorited.filter( movie => movie.id === id )
+        addToFavorites( movie )
+        console.log( filtered, "filtered" )
+        setFavoriteClicked( favoriteClicked => !favoriteClicked )
+    }
+
 
     return (
         <React.Fragment>
@@ -103,9 +110,9 @@ export const MoviePage = ( { match } ) => {
                                 </label>
                                 <label className="rottenTomato__svg">
                                     {getRatingPercentage()}%
-                        </label>
-                                <button className={`${clicked ? "active" : "heart__svg"}`} onClick={() => toggleFavorite()}>
-                                    {`${clicked === false ? "Add To Favorites" : " Added"}`}
+                                </label>
+                                <button className={`${!favoriteClicked ? "heart__svg" : "active"}`} onClick={() => toggleFavoriteBtn()
+                                }>{`${!favoriteClicked ? "ADD TO FAVS" : "ADDED"}`}
                                 </button>
                             </div>
                             <div className="text__content">

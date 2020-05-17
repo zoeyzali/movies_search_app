@@ -43,8 +43,25 @@ body {
     min-height: 100vh;
 }
 
+a.linkTo__favs {
+    text-decoration: none;
+    color: $lightGrey;
+    cursor: pointer;
+    font-size: 1.2em;
+    display: inline-flex;
+
+    &:after {
+        content: url("../assets/1.Icons/icon-heart-full.svg");
+        margin-inline-start: 0.2rem;
+    }
+
+    &:hover {
+        color: $mainRed;
+    }
+}
+
 .logo {
-    // padding: 0.5rem;
+    padding-left: 0.4rem;
     margin-top: 0.5rem;
     background-size: 18px 18px;
     background-repeat: no-repeat;
@@ -59,7 +76,6 @@ body {
 .error__wrapper,
 .loading__wrapper {
     margin: 0 auto;
-    // background-color: $mainWhite;
     padding: 1rem;
     color: $midGrey;
 
@@ -77,15 +93,16 @@ h1 {
     letter-spacing: 0.8px;
     line-height: 70px;
     text-transform: capitalize;
+    color: $mainWhite;
 }
 
 h2 {
     font-family: "Poppins",
         sans-serif;
     font-weight: 500;
-    font-size: 24pt;
-    letter-spacing: 0.2px;
-    line-height: 34px;
+    font-size: 35pt;
+    letter-spacing: 0.5px;
+    line-height: 32px;
     color: $lightGrey;
 
 }
