@@ -24,11 +24,11 @@ export const Favorites = () => {
             <div className="favorites__inner">
                 <h1>Favorites</h1>
                 <div className="favorites__list">
-                    {favorited && favorited.map( favoriteItem => {
+                    {favorited && favorited.length > 0 ? favorited.map( favoriteItem => {
                         // console.log( favoriteItem, "favorite movie item" )
                         return (
                             <div key={favoriteItem.id} className="favorites__card">
-                                <Link to={`/movies/${favoriteItem.id}`} >
+                                <Link to={`/movies/${favoriteItem.id}`}>
                                     <figure>
                                         {favoriteItem.poster_path && favoriteItem.poster_path !== null ?
                                             <img src={`${posterUrl}/${favoriteItem.poster_path}`} alt={favoriteItem.title} />
@@ -41,7 +41,12 @@ export const Favorites = () => {
                                 <button onClick={() => removeFavorite( favoriteItem.id )} className="heart__svg extra__btn"></button>
                             </div>
                         )
-                    } )}
+                    } ) : <p>Seems you haven't `favorited` any films yet.
+                    {" "}
+                            <Link to="/" className="linkTo__home">
+                                Click here to add some.
+                    </Link></p>
+                    }
                 </div>
             </div>
         </div>

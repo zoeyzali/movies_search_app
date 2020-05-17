@@ -14,6 +14,7 @@
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
+            color: $mainWhite;
 
             .favorites__card {
                 box-shadow: 0.05em .125em .125em rgba(0, 0, 0, .1);
@@ -54,8 +55,16 @@
 
                     &:before {
                         content: url("../assets/1.Icons/icon-heart-full.svg");
-
                     }
+                }
+            }
+
+            a.linkTo__home {
+                text-decoration: none;
+                color: $mainWhite;
+
+                &:hover {
+                    color: $mainYellow;
                 }
             }
         }
