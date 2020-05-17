@@ -5,18 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cd client && npm run start"
+    "dev": "cd client && npm run start",
+    "client:build": "react-scripts build",
+    "build": "cd client && npm run build"
+
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zoeyzali/frontend-challenge.git"
+    "url": "https://github.com/zoeyzali/movies_search_app"
   },
   "author": "Zoe Ali <zoeecoding@gmail.com>",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zoeyzali/frontend-challenge/issues"
-  },
-  "homepage": "https://github.com/zoeyzali/frontend-challenge#readme",
+
+  "homepage": "https://github.com/zoeyzali/movies_search_app",
   "dependencies": {
     "react-router-dom": "^5.1.2"
   }
