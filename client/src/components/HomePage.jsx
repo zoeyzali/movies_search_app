@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import * as api from '../api/api'
 
 const tmdbKey = process.env.REACT_APP_TMDB_KEY
 const baseURL = process.env.REACT_APP_BASE_URL
@@ -83,14 +82,18 @@ export const HomePage = () => {
         */
 
     useEffect( () => {
-        // setLoading( true )
-        // console.log( api, "fetch data func" )
-        fetch( '../../functions/movies' )
-            .then( response => {
-                console.log( response, "respons fetchAll" )
-                if ( !response.ok ) throw new Error( "MOFO SHIT" )
-                return response.json()
-            } ).then( data => setMovies( data ) )
+        const fetchData = async () => {
+            await fetch( '/.netlify/functions/movies' )
+                .then( res => {
+                    console.log( res, "respons fetch fuck" )
+                    if ( !res.ok ) throw new Error( "MOFO SHIT" )
+                    return res.json()
+                } )
+                .then( data => console.log( JSON.parse( data ), "data" ) )
+                .catch( error => console.log( error ) )
+            // setMovies( data )
+        }
+        fetchData()
 
         // eslint-disable-next-line
     }, [] )
@@ -109,7 +112,7 @@ export const HomePage = () => {
                 <Link to="/favorites" className="linkTo__favs">
                     Go To
                 </Link>
-                {loading &&
+                {loading && !movies &&
                     <div className="loading__wrapper">
                         <h3>... la la loading!</h3>
                     </div>

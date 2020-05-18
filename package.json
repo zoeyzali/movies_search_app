@@ -16,5 +16,8 @@
   "author": "Zoe Ali <zoeecoding@gmail.com>",
   "license": "ISC",
   "homepage": "https://github.com/zoeyzali/movies_search_app",
-  "dependencies": {}
+  "dependencies": {
+    "netlify-lambda": "^1.6.3",
+    "webpack": "4.42.0"
+  }
 }
