@@ -55,9 +55,10 @@ export const HomePage = () => {
                 controller.abort()
             }
         } else {
-            fetch( '/.netlify/functions/movies' )
+            fetch( '/.netlify/functions/search' )
                 .then( res => res.json() )
                 .then( data => {
+                    console.log( data, "data searchQ" )
                     setMovies( data.results )
                 } )
                 .catch( error => console.log( error, "ERROR" ) )
