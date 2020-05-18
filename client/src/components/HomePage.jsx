@@ -59,11 +59,11 @@ export const HomePage = () => {
                 .then( res => res.json() )
                 .then( data => {
                     console.log( data, "data searchQ" )
-                    setMovies( data.results )
+                    return ( data.results )
                 } )
+                
                 .catch( error => console.log( error, "ERROR" ) )
         }
-
     }, [query] )
 
 
