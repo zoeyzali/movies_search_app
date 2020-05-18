@@ -85,16 +85,14 @@ export const HomePage = () => {
         const fetchData = async () => {
             await fetch( '/.netlify/functions/movies' )
                 .then( res => {
-                    console.log( res, "respons fetch fuck" )
                     if ( !res.ok ) throw new Error( "MOFO SHIT" )
                     return res.json()
                 } )
-                .then( data => console.log( JSON.parse( data ), "data" ) )
+                .then( data => setMovies( data ) )
                 .catch( error => console.log( error ) )
             // setMovies( data )
         }
         fetchData()
-
         // eslint-disable-next-line
     }, [] )
 

@@ -13,11 +13,12 @@ exports.handler = async ( event, context ) => {
                 'Accept': 'application/json'
             },
         } )
-        const result = await response.json()
-        console.log( result, "result functions" )
+        console.log( response, "response" )
+        // const result = await response.json()
+        // console.log( result, "result functions" )
         return {
             statusCode: 200,
-            body: result
+            body: JSON.stringify( response )
         }
     } catch ( error ) {
         console.log( error, "error" )
