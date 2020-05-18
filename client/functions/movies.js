@@ -1,6 +1,6 @@
 const fetch = require( 'node-fetch' )
 
-exports.handler = async ( event, context, callback ) => {
+exports.handler = async ( event, context ) => {
     const tmdbKey = process.env.REACT_APP_TMDB_KEY
     const baseURL = process.env.REACT_APP_BASE_URL
     const accessToken = process.env.REACT_APP_ACCESS_TOKEN
@@ -13,15 +13,15 @@ exports.handler = async ( event, context, callback ) => {
             },
         } )
         const result = await response.json()
-        console.log( result, "result functions" )
+        // console.log( result, "result functions" )
         return {
             statusCode: 200,
-            body: JSON.stringify( { movies: result.results } )
+            body: JSON.stringify( result.results )
         }
     } catch ( error ) {
         console.log( error, "error" )
         return {
-            statusCode: 422, body: String( error )
+            statusCode: 422, body: JSON.stringify( { error: error.message } )
         }
     }
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import * as api from '../api/api'
 
 const tmdbKey = process.env.REACT_APP_TMDB_KEY
 const baseURL = process.env.REACT_APP_BASE_URL
@@ -59,27 +60,38 @@ export const HomePage = () => {
             //     headers: {
             //         authorization: accessToken
             //     },
-            // } ) */
+            // } ) 
+            
+                    // const fetchInitialData = () => {
+        // try {
+        //     const moviesRes = await fetch( '../../functions/movies' )
+        //     const moviesResult = await moviesRes.json()
+        //     setLoading( false )
+        //     // console.log( moviesResult, "list-rustyNails" )
+        //     setMovies( moviesResult )
+        //     return {
+        //         moviesResult: moviesResult
+        //     }
+        // } catch ( error ) {
+        //     console.log( error )
+        //     return {
+        //         moviesResult: []
+        //     }
+        // }
+        // }
+        // fetchInitialData()            
+        */
+
     useEffect( () => {
-        setLoading( true )
-        const fetchInitialData = async () => {
-            try {
-                const moviesRes = await fetch( '../../functions/movies' )
-                const moviesResult = await moviesRes.json()
-                setLoading( false )
-                // console.log( moviesResult, "list-rustyNails" )
-                setMovies( moviesResult.results )
-                return {
-                    moviesResult: moviesResult
-                }
-            } catch ( error ) {
-                console.log( error )
-                return {
-                    moviesResult: []
-                }
-            }
-        }
-        fetchInitialData()
+        // setLoading( true )
+        // console.log( api, "fetch data func" )
+        fetch( '../../functions/movies' )
+            .then( response => {
+                console.log( response, "respons fetchAll" )
+                if ( !response.ok ) throw new Error( "MOFO SHIT" )
+                return response.json()
+            } ).then( data => setMovies( data ) )
+
         // eslint-disable-next-line
     }, [] )
 
