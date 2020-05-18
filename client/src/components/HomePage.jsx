@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-// import { MoviesContext } from '../context/MoviesContext'
-// import { Favorites } from './Favorites'
 
 const tmdbKey = process.env.REACT_APP_TMDB_KEY
 const baseURL = process.env.REACT_APP_BASE_URL
-const accessToken = process.env.REACT_APP_ACCESS_TOKEN
-// console.log( tmdbKey, "destructured", baseURL )
+// const accessToken = process.env.REACT_APP_ACCESS_TOKEN
 const posterUrl = `https://image.tmdb.org/t/p/w342`
 
 export const HomePage = () => {
@@ -15,8 +12,6 @@ export const HomePage = () => {
     const [loading, setLoading] = useState( false )
     const [error, setError] = useState( false )
     const focusSearch = useRef( null )
-    // const { favorited } = useContext( MoviesContext )
-    // const [favoriteClicked, setFavoriteClicked] = useState( false )
 
     useEffect( () => { focusSearch.current.focus() }, [] )
 
@@ -59,24 +54,35 @@ export const HomePage = () => {
         }
     }, [query] )
 
+    /**         // const response = await fetch( `https://api.themoviedb.org/4/list/140481?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}`, {
+            //     method: 'GET',
+            //     headers: {
+            //         authorization: accessToken
+            //     },
+            // } ) */
     useEffect( () => {
+        setLoading( true )
         const fetchInitialData = async () => {
-            const response = await fetch( `https://api.themoviedb.org/4/list/140481?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}`, {
-                method: 'GET',
-                headers: {
-                    authorization: accessToken
-                },
-            } )
-            const result = await response.json()
-            // console.log( result, "list-rustyNails" )
-            setMovies( result.results )
+            try {
+                const moviesRes = await fetch( '/.netlify/functions/movies' )
+                const moviesResult = await moviesRes.json()
+                setLoading( false )
+                console.log( moviesResult, "list-rustyNails" )
+                // setMovies( moviesResult.results )
+                return {
+                    moviesResult: moviesResult
+                }
+            } catch ( error ) {
+                console.log( error )
+                return {
+                    moviesResult: []
+                }
+            }
         }
         fetchInitialData()
-        // setFavoriteClicked( !favoriteClicked )
         // eslint-disable-next-line
     }, [] )
 
-    // console.log( favorited, "favorited HOMEPAGE", favoriteClicked )
     return (
         <div className="home__wrapper">
             <div className="logo" />
@@ -111,8 +117,8 @@ export const HomePage = () => {
                                         {movie.poster_path && movie.poster_path !== null ?
                                             <img src={`${posterUrl}/${movie.poster_path}`} alt={movie.title} />
                                             :
-                                            <img src={`https://dummyimage.com/w185x277.5/eee/555.png&text=No+image`}
-                                                alt={movie.title} className=" img__holder" />
+                                            <img src={`https://dummyimage.com/w185x277.5/eee/555.png&text=No+images+found`}
+                                                alt={movie.title} className="img__holder" />
                                         }
                                     </figure>
                                 </Link>
@@ -126,4 +132,3 @@ export const HomePage = () => {
     )
 }
 
-//                        <Favorites posterUrl={posterUrl} />

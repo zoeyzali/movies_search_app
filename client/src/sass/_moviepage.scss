@@ -5,21 +5,27 @@
     padding: 1rem;
 
     .back__arrow {
-        margin-top: 1rem;
-        color: $lightGrey;
+        margin: 1rem 0 0.5rem;
+        width: fit-content;
 
-        &:after {
+        &::after {
             content: url("../assets/1.Icons/icon-arrow-grey.svg");
         }
 
         &:hover {
             content: url("../assets/1.Icons/icon-arrow-white.svg");
-            margin-bottom: 0.8rem;
+            opacity: 1;
+            transition: opacity 1s;
+            // z-index: 2;
+
+            &::after {
+                content: "";
+            }
         }
     }
 
     .inner__wrapper {
-        margin-top: 1rem;
+        margin-top: 1.5rem;
         display: flex;
         flex-wrap: wrap;
         background-color: $mainDark;
@@ -183,12 +189,17 @@
     @media screen and (max-width: 600px) {
         .inner__wrapper {
             display: block;
+        }
+    }
 
+    @media screen and (max-width: 375px) {
+        .home__wrapper .home__inner .search__wrapper form input {
+            width: auto;
+        }
 
-            .imdb__svg,
-            .rottenTomato__svg {
-                margin-block-end: 0.5rem;
-            }
+        .imdb__svg,
+        .rottenTomato__svg {
+            margin-block-end: 0.2rem;
         }
     }
 }

@@ -45,7 +45,7 @@ body {
 
 a.linkTo__favs {
     text-decoration: none;
-    color: $lightGrey;
+    color: $mainWhite;
     cursor: pointer;
     font-size: 1.2em;
     display: inline-flex;
@@ -62,7 +62,7 @@ a.linkTo__favs {
 
 .logo {
     padding-left: 0.4rem;
-    margin-top: 0.5rem;
+    margin: 0.5rem 0;
     background-size: 18px 18px;
     background-repeat: no-repeat;
     position: absolute;
@@ -104,14 +104,13 @@ h2 {
     letter-spacing: 0.5px;
     line-height: 32px;
     color: $lightGrey;
-
 }
 
 h3 {
     font-family: "Poppins",
         sans-serif;
     font-weight: 500;
-    font-size: 20pt;
+    font-size: 24pt;
     letter-spacing: 0.8px;
     line-height: 26px;
     color: $lightGrey;

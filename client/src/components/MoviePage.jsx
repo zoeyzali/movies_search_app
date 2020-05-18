@@ -12,7 +12,7 @@ export const MoviePage = ( { match } ) => {
     const [movie, setMovie] = useState( {} )
     const [credits, setCredits] = useState()
     const posterUrl = `https://image.tmdb.org/t/p/w500`
-    const { addToFavorites, favorited } = useContext( MoviesContext )
+    const { addToFavorites } = useContext( MoviesContext )
 
     useEffect( () => {
         const fetchMovieDetails = async () => {
@@ -52,7 +52,7 @@ export const MoviePage = ( { match } ) => {
         return [genresList]
     }
 
-    // one hot of mess!  // varied and incomplete data // to be reviewed
+    // one hot of mess!  // varied and incomplete data // to be revised
     const certificationsMapped = () => {
         const certificationsArr = movie.release_dates && movie.release_dates.results.map( ( result, i ) => {
             let usRating = result && result.iso_3166_1 === "US" && result.release_dates.length > 0 && result.release_dates[0].certification !== "" ? <label key={i} >{result.release_dates[0].certification !== "" ? result.release_dates[0].certification : result.release_dates[1].certification}</label> : ""
@@ -64,6 +64,7 @@ export const MoviePage = ( { match } ) => {
         return certificationsArr
     }
 
+    /** just converting tmdb's own rating into % since it doesn't provide rottentomato or imdb-ratings */
     const getRatingPercentage = () => {
         let maxRating = movie.vote_count * 10
         let totalRatings = movie.vote_average * movie.vote_count
@@ -76,9 +77,9 @@ export const MoviePage = ( { match } ) => {
 
 
     const toggleFavoriteBtn = ( id ) => {
-        const filtered = favorited.filter( movie => movie.id === id )
+        // const filtered = favorited.filter( movie => movie.id === id )
         addToFavorites( movie )
-        console.log( filtered, "filtered" )
+        // console.log( filtered, "filtered" )
         setFavoriteClicked( favoriteClicked => !favoriteClicked )
     }
 
@@ -140,8 +141,9 @@ export const MoviePage = ( { match } ) => {
                             <figure>
                                 {movie.poster_path && movie.poster_path !== null ?
                                     <img src={`${posterUrl}/${movie.poster_path}`} alt={movie.title} /> :
-                                    <img src={`https://dummyimage.com/w300x400/555/ddd.png&text=image+NA`}
-                                        alt={movie.title} className=" img__holder" />
+                                    <img src={`https://dummyimage.com/w300x400/eee/555.png&text=image+NA`}
+                                        alt={movie.title} className="img__holder"
+                                    />
                                 }
                             </figure>
                         </div>
