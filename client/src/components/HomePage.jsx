@@ -7,6 +7,7 @@ const baseURL = process.env.REACT_APP_BASE_URL
 const accessToken = process.env.REACT_APP_ACCESS_TOKEN
 const posterUrl = `https://image.tmdb.org/t/p/w342`
 
+console.log( process.env.NODE_ENV, "node env" )
 export const HomePage = () => {
     const [query, setQuery] = useState( "" )
     const [movies, setMovies] = useState( [] )
@@ -90,40 +91,34 @@ export const HomePage = () => {
 
 
     useEffect( () => {
-        fetch( '/.netlify/functions/movies', {
-            method: 'GET',
-            headers: {
-                authorization: accessToken,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Content-Type"
-            },
-        } )
-            .then( res => res.json() )
-            .then( data => {
-                setMovies( data.results )
-                console.log( data, "movies data" )
-            } )
-
-            .catch( error => console.log( error, "ERROR" ) )
-        // const fetchData = async () => {
-        //     try {
-        //         const response = await fetch( '/.netlify/functions/movies' )
-        //         console.log( response, "response" )
-
-        //         const result = await response.json()
-        //         console.log( result, "result json" )
-        //         // return result
-        //         setMovies( result )
-
-        //     } catch ( error ) {
-        //         console.log( error )
-        //         // return []
-        //     }
-        // }
-        // fetchData()
-        // eslint-disable-next-line
+        if ( process.env.NODE_ENV === "development" ) {
+            const fetchData = async () => {
+                try {
+                    const response = await fetch( `https://api.themoviedb.org/4/list/140481?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: accessToken,
+                            'Accept': 'application/json'
+                        }
+                    } )
+                    const result = await response.json()
+                    console.log( result, "result json" )
+                    setMovies( result.results )
+                } catch ( error ) {
+                    console.log( error )
+                }
+            }
+            fetchData()
+            // eslint-disable-next-line
+        } else {
+            fetch( '/.netlify/functions/movies' )
+                .then( res => res.json() )
+                .then( data => {
+                    setMovies( data.results )
+                    console.log( data, "movies data" )
+                } )
+                .catch( error => console.log( error, "ERROR" ) )
+        }
     }, [] )
 
     return (
