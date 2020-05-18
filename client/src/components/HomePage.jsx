@@ -7,7 +7,6 @@ const baseURL = process.env.REACT_APP_BASE_URL
 const accessToken = process.env.REACT_APP_ACCESS_TOKEN
 const posterUrl = `https://image.tmdb.org/t/p/w342`
 
-console.log( process.env.NODE_ENV, "node env" )
 export const HomePage = () => {
     const [query, setQuery] = useState( "" )
     const [movies, setMovies] = useState( [] )
@@ -36,60 +35,38 @@ export const HomePage = () => {
     }
 
     useEffect( () => {
-        let currentQuery = true
-        const controller = new AbortController()
-        // const signal = controller.signal
-        const loadMovies = async () => {
-            if ( !query ) return setMovies( [] )
-            await sleep( 350 )
-            setError( false )
-            if ( currentQuery ) {
-                const movies = await handleSearch( query, controller )
-                setLoading( false )
-                setMovies( movies )
+        if ( process.env.NODE_ENV === "development" ) {
+            let currentQuery = true
+            const controller = new AbortController()
+            // const signal = controller.signal
+            const loadMovies = async () => {
+                if ( !query ) return setMovies( [] )
+                await sleep( 350 )
+                setError( false )
+                if ( currentQuery ) {
+                    const movies = await handleSearch( query, controller )
+                    setLoading( false )
+                    setMovies( movies )
+                }
             }
+            loadMovies()
+            return () => {
+                currentQuery = false
+                controller.abort()
+            }
+        } else {
+            fetch( '/.netlify/functions/movies' )
+                .then( res => res.json() )
+                .then( data => {
+                    setMovies( data.results )
+                } )
+                .catch( error => console.log( error, "ERROR" ) )
         }
-        loadMovies()
-        return () => {
-            currentQuery = false
-            controller.abort()
-        }
+
     }, [query] )
 
-    /**         // const response = await fetch( `https://api.themoviedb.org/4/list/140481?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}`, {
-            //     method: 'GET',
-            //     headers: {
-            //         authorization: accessToken
-            //     },
-            // } ) 
-            
-                    // const fetchInitialData = () => {
-        // try {
-        //     const moviesRes = await fetch( '../../functions/movies' )
-        //     const moviesResult = await moviesRes.json()
-        //     setLoading( false )
-        //     // console.log( moviesResult, "list-rustyNails" )
-        //     setMovies( moviesResult )
-        //     return {
-        //         moviesResult: moviesResult
-        //     }
-        // } catch ( error ) {
-        //     console.log( error )
-        //     return {
-        //         moviesResult: []
-        //     }
-        // }
-        // }
-        // fetchInitialData()            
-        */
 
-    // useEffect( () => {
-    //     fetch( '/.netlify/functions/hello' )
-    //         .then( res => console.log( res, "hello res" ) )
-    //         .then( data => console.log( data, "hello data" ) )
-    // }, [] )
-
-
+    //console.log( process.env.NODE_ENV, "node env" )
     useEffect( () => {
         if ( process.env.NODE_ENV === "development" ) {
             const fetchData = async () => {
@@ -98,11 +75,11 @@ export const HomePage = () => {
                         method: 'GET',
                         headers: {
                             Authorization: accessToken,
-                            'Accept': 'application/json'
+                            // 'Accept': 'application/json'
                         }
                     } )
                     const result = await response.json()
-                    console.log( result, "result json" )
+                    console.log( result.results, "result json" )
                     setMovies( result.results )
                 } catch ( error ) {
                     console.log( error )
@@ -115,7 +92,6 @@ export const HomePage = () => {
                 .then( res => res.json() )
                 .then( data => {
                     setMovies( data.results )
-                    console.log( data, "movies data" )
                 } )
                 .catch( error => console.log( error, "ERROR" ) )
         }

@@ -21,6 +21,22 @@ exports.handler = async ( event, context ) => {
             statusCode: 422,
             body: String( error )
         } ) )
+}
+
+
+// serach functionality *functions
+exports.handler = async ( event, context, callback ) => {
+    const query = event.queryStringParameters.query
+    return fetch( `${baseURL}/search/movie?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}&query=${query}`, { signal: controller.signal } )
+        .then( json => {
+            console.log( json, "json query" )
+            callback( null, {
+                statusCode: 200,
+                body: JSON.stringify( json.results )
+            } )
+        } )
+        .catch( error => console.log( "ERROR: ", error ) )
+}
 
     // try {
     //     const response = await fetch( `https://api.themoviedb.org/4/list/140481?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}`, {
@@ -46,4 +62,3 @@ exports.handler = async ( event, context ) => {
     //         body: JSON.stringify( { error: error } )
     //     } )
     // }
-}
