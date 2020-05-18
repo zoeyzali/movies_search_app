@@ -4,7 +4,7 @@ import fetch from 'node-fetch'
 
 const tmdbKey = process.env.REACT_APP_TMDB_KEY
 const baseURL = process.env.REACT_APP_BASE_URL
-// const accessToken = process.env.REACT_APP_ACCESS_TOKEN
+const accessToken = process.env.REACT_APP_ACCESS_TOKEN
 const posterUrl = `https://image.tmdb.org/t/p/w342`
 
 export const HomePage = () => {
@@ -90,9 +90,21 @@ export const HomePage = () => {
 
 
     useEffect( () => {
-        fetch( '/.netlify/functions/movies' )
-            .then( res => JSON.stringify( res ) )
-            .then( data => console.log( data, "movies data" ) )
+        fetch( '/.netlify/functions/movies', {
+            method: 'GET',
+            headers: {
+                authorization: accessToken,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type"
+            },
+        } )
+            .then( res => res.json() )
+            .then( data => {
+                setMovies( data )
+                console.log( data, "movies data" )
+            } )
 
             .catch( error => console.log( error, "ERROR" ) )
         // const fetchData = async () => {
