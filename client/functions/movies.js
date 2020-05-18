@@ -12,7 +12,7 @@ exports.handler = async ( event, context, callback ) => {
                 'content-type': 'application/json'
             },
         } )
-        const result = response.json()
+        const result = await response.json()
         console.log( result, "result functions" )
         return {
             statusCode: 200,
