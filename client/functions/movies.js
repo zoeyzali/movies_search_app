@@ -9,16 +9,16 @@ exports.handler = async ( event, context ) => {
             method: 'GET',
             headers: {
                 authorization: accessToken,
-                // 'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
         } )
         console.log( response, "response" )
-        // const result = await response.json()
+        const result = await response.json()
         // console.log( result, "result functions" )
         return {
             statusCode: 200,
-            body: JSON.stringify( response )
+            body: JSON.stringify( result )
         }
     } catch ( error ) {
         console.log( error, "error" )
