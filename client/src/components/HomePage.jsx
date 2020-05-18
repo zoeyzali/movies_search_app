@@ -84,27 +84,33 @@ export const HomePage = () => {
 
     useEffect( () => {
         fetch( '/.netlify/functions/hello' )
-            .then( res => console.log( res ) )
-    } )
+            .then( res => console.log( res, "hello res" ) )
+            .then( data => console.log( data, "hello data" ) )
+    }, [] )
 
 
     useEffect( () => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch( '/.netlify/functions/movies' )
-                console.log( response, "response" )
+        fetch( '/.netlify/functions/movies' )
+            .then( res => JSON.stringify( res ) )
+            .then( data => console.log( data, "movies data" ) )
 
-                const result = await response.json()
-                console.log( result, "result json" )
-                // return result
-                setMovies( result )
+            .catch( error => console.log( error, "ERROR" ) )
+        // const fetchData = async () => {
+        //     try {
+        //         const response = await fetch( '/.netlify/functions/movies' )
+        //         console.log( response, "response" )
 
-            } catch ( error ) {
-                console.log( error )
-                // return []
-            }
-        }
-        fetchData()
+        //         const result = await response.json()
+        //         console.log( result, "result json" )
+        //         // return result
+        //         setMovies( result )
+
+        //     } catch ( error ) {
+        //         console.log( error )
+        //         // return []
+        //     }
+        // }
+        // fetchData()
         // eslint-disable-next-line
     }, [] )
 

@@ -13,14 +13,14 @@ exports.handler = async ( event, context, callback ) => {
         }
     } )
         .then( response => response.json() )
-        .then( data => {
-            console.log( data, "data" )
-        } )
-        // ( {
-        //     statusCode: 200,
-        //     body: data.results
-        // } ) 
-        .catch( error => ( { statusCode: 422, body: String( error ) } ) )
+        .then( data => ( {
+            statusCode: 200,
+            body: JSON.stringify( data )
+        } ) )
+        .catch( error => ( {
+            statusCode: 422,
+            body: String( error )
+        } ) )
 
     // try {
     //     const response = await fetch( `https://api.themoviedb.org/4/list/140481?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}`, {
