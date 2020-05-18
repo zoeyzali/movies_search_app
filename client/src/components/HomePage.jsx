@@ -82,11 +82,11 @@ export const HomePage = () => {
         // fetchInitialData()            
         */
 
-    useEffect( () => {
-        fetch( '/.netlify/functions/hello' )
-            .then( res => console.log( res, "hello res" ) )
-            .then( data => console.log( data, "hello data" ) )
-    }, [] )
+    // useEffect( () => {
+    //     fetch( '/.netlify/functions/hello' )
+    //         .then( res => console.log( res, "hello res" ) )
+    //         .then( data => console.log( data, "hello data" ) )
+    // }, [] )
 
 
     useEffect( () => {
@@ -102,7 +102,7 @@ export const HomePage = () => {
         } )
             .then( res => res.json() )
             .then( data => {
-                setMovies( data )
+                setMovies( data.results )
                 console.log( data, "movies data" )
             } )
 
