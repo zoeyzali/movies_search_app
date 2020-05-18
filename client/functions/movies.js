@@ -1,4 +1,4 @@
-// import fetch from 'node-fetch'
+const fetch = require( 'node-fetch' )
 
 exports.handler = async ( event, context, callback ) => {
     const tmdbKey = process.env.REACT_APP_TMDB_KEY
