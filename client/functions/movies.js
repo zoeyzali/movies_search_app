@@ -1,5 +1,4 @@
-import fetch from 'node-fetch'
-
+// import fetch from 'node-fetch'
 
 exports.handler = async ( event, context, callback ) => {
     const tmdbKey = process.env.REACT_APP_TMDB_KEY
@@ -14,15 +13,7 @@ exports.handler = async ( event, context, callback ) => {
             },
         } )
         const result = response.json()
-        // console.log( result, "result functions" )
-        // .then( response => response.json() )
-        // .then( data => {
-        //     console.log( data, "data" )
-        //         ( {
-        //             statusCode: 200,
-        //             body: data
-        //         } )
-        // } )
+        console.log( result, "result functions" )
         return {
             statusCode: 200,
             body: JSON.stringify( { movies: result.results } )

@@ -64,11 +64,11 @@ export const HomePage = () => {
         setLoading( true )
         const fetchInitialData = async () => {
             try {
-                const moviesRes = await fetch( '/.netlify/functions/movies' )
+                const moviesRes = await fetch( '../../functions/movies' )
                 const moviesResult = await moviesRes.json()
                 setLoading( false )
-                console.log( moviesResult, "list-rustyNails" )
-                // setMovies( moviesResult.results )
+                // console.log( moviesResult, "list-rustyNails" )
+                setMovies( moviesResult.results )
                 return {
                     moviesResult: moviesResult
                 }
