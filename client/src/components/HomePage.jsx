@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import fetch from 'node-fetch'
 
 const tmdbKey = process.env.REACT_APP_TMDB_KEY
 const baseURL = process.env.REACT_APP_BASE_URL
@@ -82,15 +83,26 @@ export const HomePage = () => {
         */
 
     useEffect( () => {
+        fetch( '/.netlify/functions/hello' )
+            .then( res => console.log( res ) )
+    } )
+
+
+    useEffect( () => {
         const fetchData = async () => {
-            await fetch( '/.netlify/functions/movies' )
-                .then( res => {
-                    if ( !res.ok ) throw new Error( "MOFO SHIT" )
-                    return res.json()
-                } )
-                .then( data => setMovies( data ) )
-                .catch( error => console.log( error ) )
-            // setMovies( data )
+            try {
+                const response = await fetch( '/.netlify/functions/movies' )
+                console.log( response, "response" )
+
+                const result = await response.json()
+                console.log( result, "result json" )
+                // return result
+                setMovies( result )
+
+            } catch ( error ) {
+                console.log( error )
+                // return []
+            }
         }
         fetchData()
         // eslint-disable-next-line
