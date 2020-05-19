@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cd client && npm run start",
     "client:build": "react-scripts build",
-    "build": "cd client && npm run build"
+    "build": "cd client && npm run build",
+    "start:lambda": "netlify-lambda serve client/functions",
+    "build:lambda": "netlify-lambda build client/functions"
   },
   "repository": {
     "type": "git",

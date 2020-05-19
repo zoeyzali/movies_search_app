@@ -55,25 +55,21 @@ export const HomePage = () => {
                 controller.abort()
             }
         } else {
-            // const getQuery = async ( { query = "berlin" } ) => await ( await fetch( `/.netlify/functions/search?query=${query}` ) ).json()
-            // getQuery().then( data => {
-            //     console.log( data, "data searchQ" )
-            //     return ( data.results )
-            //         .catch( error => console.log( error, "ERROR" ) )
-            // } )
-
-            fetch( `/.netlify/functions/search` )
+            fetch( `/.netlify/functions/search?query=${query}` )
+            if ( !query ) return setMovies( [] )
+            setError( true )
                 .then( res => res.json() )
                 .then( data => {
-                    console.log( data, "search results frontend" )
+                    console.log( data, "queryResults-front" )
+                    // return data
                     setMovies( data.results )
                 } )
-                .catch( error => console.log( error, "query errors" ) )
+                .catch( error => console.log( error, "queryErrors" ) )
         }
     }, [query] )
 
 
-    //console.log( process.env.NODE_ENV, "node env" )
+    console.log( process.env.NODE_ENV, "node env" )
     useEffect( () => {
         if ( process.env.NODE_ENV === "development" ) {
             const fetchData = async () => {
@@ -85,14 +81,13 @@ export const HomePage = () => {
                         }
                     } )
                     const result = await response.json()
-                    console.log( result.results, "result json" )
+                    // console.log( result.results, "result json" )
                     setMovies( result.results )
                 } catch ( error ) {
                     console.log( error )
                 }
             }
             fetchData()
-            // eslint-disable-next-line
         } else {
             fetch( '/.netlify/functions/movies' )
                 .then( res => res.json() )
@@ -101,6 +96,7 @@ export const HomePage = () => {
                 } )
                 .catch( error => console.log( error, "ERROR" ) )
         }
+        // eslint-disable-next-line
     }, [] )
 
     return (
