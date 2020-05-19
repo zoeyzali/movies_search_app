@@ -55,14 +55,12 @@ export const HomePage = () => {
                 controller.abort()
             }
         } else {
-            fetch( '/.netlify/functions/search' )
-                .then( res => res.json() )
-                .then( data => {
-                    console.log( data, "data searchQ" )
-                    return ( data.results )
-                } )
-                
-                .catch( error => console.log( error, "ERROR" ) )
+            const getQuery = async ( { query = "berlin" } ) => await ( await fetch( `/.netlify/functions/search?query=${query}` ) ).json()
+            getQuery().then( data => {
+                console.log( data, "data searchQ" )
+                return ( data.results )
+                    .catch( error => console.log( error, "ERROR" ) )
+            } )
         }
     }, [query] )
 
@@ -76,7 +74,6 @@ export const HomePage = () => {
                         method: 'GET',
                         headers: {
                             Authorization: accessToken,
-                            // 'Accept': 'application/json'
                         }
                     } )
                     const result = await response.json()
