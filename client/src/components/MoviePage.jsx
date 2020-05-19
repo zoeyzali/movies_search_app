@@ -16,11 +16,22 @@ export const MoviePage = ( { match } ) => {
 
     useEffect( () => {
         const fetchMovieDetails = async () => {
-            const response = await fetch( `${baseURL}/movie/${id}?api_key=${tmdbKey}&language=en-US&include_adult=false&append_to_response=videos,credits,keywords,release_dates` )
-            const result = await response.json()
-            // console.log( result, "details response" )
-            setMovie( result )
-            setCredits( result.credits )
+            if ( process.env.NODE_ENV === "development" ) {
+                const response = await fetch( `${baseURL}/movie/${id}?api_key=${tmdbKey}&language=en-US&include_adult=false&append_to_response=videos,credits,keywords,release_dates` )
+                const result = await response.json()
+                // console.log( result, "details response" )
+                setMovie( result )
+                setCredits( result.credits )
+            } else {
+                fetch( `/.netlify/functions/movie?id=${id}` )
+                    .then( res => res.json() )
+                    .then( data => {
+                        console.log( data, "details_netlifyFunction" )
+                        setMovie( data )
+                        setCredits( data.credits )
+                    } )
+                    .catch( error => console.log( error, "ERROR: MovieDetails" ) )
+            }
         }
         fetchMovieDetails()
         // eslint-disable-next-line
