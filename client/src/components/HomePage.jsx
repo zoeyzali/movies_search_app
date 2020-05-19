@@ -34,21 +34,21 @@ export const HomePage = () => {
                 // if ( !query ) return setMovies( [] )
                 .then( res => res.json() )
                 .then( data => {
-                    console.log( data, "queryResults-front" )
-                    if ( data.results === 0 || data.results === [] ) {
+                    console.log( data.results, "queryResults-front" )
+                    if ( data.total_results === 0 || data.results === [] ) {
                         return setError( true )
                     }
                     setLoading( false )
                     setError( false )
-                    // setMovies( data.results )
-                    return ( data.results )
+                    setMovies( data.results )
+                    // return ( data.results )
                 } )
                 .catch( error => console.log( error, "queryErrors" ) )
         }
     }
 
     const sleep = ( ms ) => {
-        setLoading( true )
+        // setLoading( true )
         return new Promise( resolve => setTimeout( resolve, ms ) )
     }
 
@@ -58,7 +58,7 @@ export const HomePage = () => {
         // const signal = controller.signal
         const loadMovies = async () => {
             if ( !query ) return setMovies( [] )
-            await sleep( 400 )
+            await sleep( 500 )
             setError( false )
             if ( currentQuery ) {
                 const movies = await handleSearch( query, controller )
