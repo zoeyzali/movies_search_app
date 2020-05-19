@@ -55,12 +55,20 @@ export const HomePage = () => {
                 controller.abort()
             }
         } else {
-            const getQuery = async ( { query = "berlin" } ) => await ( await fetch( `/.netlify/functions/search?query=${query}` ) ).json()
-            getQuery().then( data => {
-                console.log( data, "data searchQ" )
-                return ( data.results )
-                    .catch( error => console.log( error, "ERROR" ) )
-            } )
+            // const getQuery = async ( { query = "berlin" } ) => await ( await fetch( `/.netlify/functions/search?query=${query}` ) ).json()
+            // getQuery().then( data => {
+            //     console.log( data, "data searchQ" )
+            //     return ( data.results )
+            //         .catch( error => console.log( error, "ERROR" ) )
+            // } )
+
+            fetch( `/.netlify/functions/search?query=${query}` )
+                .then( res => res.json() )
+                .then( data => {
+                    console.log( data, "search results data" )
+                    setMovies( data.results )
+                } )
+                .catch( error => console.log( error, "query errors" ) )
         }
     }, [query] )
 
