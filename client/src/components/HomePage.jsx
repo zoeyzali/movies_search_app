@@ -62,7 +62,7 @@ export const HomePage = () => {
             //         .catch( error => console.log( error, "ERROR" ) )
             // } )
 
-            fetch( `/.netlify/functions/search?query=${query}` )
+            fetch( `/.netlify/functions/search` )
                 .then( res => res.json() )
                 .then( data => {
                     console.log( data, "search results frontend" )
