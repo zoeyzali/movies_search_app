@@ -23,30 +23,3 @@ exports.handler = async ( event, context ) => {
         } ) )
 }
 
-
-
-
-    // try {
-    //     const response = await fetch( `https://api.themoviedb.org/4/list/140481?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}`, {
-    //         method: 'GET',
-    //         headers: {
-    //             authorization: accessToken,
-    //             'Content-Type': 'application/json',
-    //             'Accept': 'application/json',
-    //             "Access-Control-Allow-Origin": "*",
-    //             "Access-Control-Allow-Headers": "Content-Type"
-    //         },
-    //     } )
-    //     const result = await response.json()
-    //     // console.log( result, "result functions" )
-    //     return callback( null, {
-    //         statusCode: 200,
-    //         body: JSON.stringify( result )
-    //     } )
-    // } catch ( error ) {
-    //     console.log( error, "error" )
-    //     return callback( error, {
-    //         statusCode: 422,
-    //         body: JSON.stringify( { error: error } )
-    //     } )
-    // }

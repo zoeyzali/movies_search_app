@@ -26,7 +26,7 @@ export const MoviePage = ( { match } ) => {
                 fetch( `/.netlify/functions/movie?id=${id}` )
                     .then( res => res.json() )
                     .then( data => {
-                        console.log( data, "details_netlifyFunction" )
+                        // console.log( data, "details_netlifyFunction" )
                         setMovie( data )
                         setCredits( data.credits )
                     } )

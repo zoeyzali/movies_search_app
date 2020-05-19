@@ -17,6 +17,7 @@ export const HomePage = () => {
     useEffect( () => { focusSearch.current.focus() }, [] )
 
     const handleSearch = async ( query, controller ) => {
+        setLoading( true )
         if ( process.env.NODE_ENV === "development" ) {
             const response = await fetch( `${baseURL}/search/movie?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}&query=${query}`, { signal: controller.signal } )
             const result = await response.json()
@@ -26,16 +27,17 @@ export const HomePage = () => {
                 return setError( true )
             }
             setError( false )
+            setLoading( false )
             return ( result.results )
-
         } else {
-            setLoading( true )
             fetch( `/.netlify/functions/search?query=${query}` )
                 // if ( !query ) return setMovies( [] )
                 .then( res => res.json() )
                 .then( data => {
                     console.log( data, "queryResults-front" )
-                    // return data
+                    if ( !data || data.results === [] ) return setError( true )
+
+                    setLoading( false )
                     setError( false )
                     setMovies( data.results )
                 } )
@@ -54,7 +56,7 @@ export const HomePage = () => {
         // const signal = controller.signal
         const loadMovies = async () => {
             if ( !query ) return setMovies( [] )
-            await sleep( 350 )
+            await sleep( 450 )
             setError( false )
             if ( currentQuery ) {
                 const movies = await handleSearch( query, controller )
@@ -70,7 +72,7 @@ export const HomePage = () => {
     }, [query] )
 
 
-    console.log( process.env.NODE_ENV, "node env" )
+    // console.log( process.env.NODE_ENV, "node env" )
     useEffect( () => {
         if ( process.env.NODE_ENV === "development" ) {
             const fetchData = async () => {
