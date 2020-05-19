@@ -7,12 +7,12 @@ const baseURL = process.env.REACT_APP_BASE_URL
 exports.handler = async ( event, context ) => {
     console.log( context, "context?" )
     const query = event.queryStringParameters.query
-    if ( !query ) {
-        return {
-            statusCode: 500,
-            body: 'Must define search term'
-        }
-    }
+    // if ( !query ) {
+    //     return {
+    //         statusCode: 500,
+    //         body: 'Must define search term'
+    //     }
+    // }
     // let url = `${baseURL}/search/movie?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}&query=${query}`
     // let response = await fetch( url )
     // let data = await response.json()
