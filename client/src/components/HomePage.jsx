@@ -55,9 +55,9 @@ export const HomePage = () => {
                 controller.abort()
             }
         } else {
-            fetch( `/.netlify/functions/search?query=${query}` )
-            if ( !query ) return setMovies( [] )
-            setError( true )
+            fetch( `/.netlify/functions/search` )
+                // if ( !query ) return setMovies( [] )
+                // setError( true )
                 .then( res => res.json() )
                 .then( data => {
                     console.log( data, "queryResults-front" )

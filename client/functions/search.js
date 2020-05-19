@@ -41,5 +41,14 @@ exports.handler = async ( event, context ) => {
         .then( response => response.json() )
         .then( data => {
             console.log( data, "data", query )
+            return {
+                statusCode: 200,
+                body: JSON.stringify( data )
+            }
         } )
+        .catch( error => ( {
+            statusCode: 422,
+            body: String( error )
+        } ) )
 }
+
