@@ -35,11 +35,13 @@ export const HomePage = () => {
                 .then( res => res.json() )
                 .then( data => {
                     console.log( data, "queryResults-front" )
-                    if ( !data || data.results === [] ) return setError( true )
-
+                    if ( data.results === 0 || data.results === [] ) {
+                        return setError( true )
+                    }
                     setLoading( false )
                     setError( false )
-                    setMovies( data.results )
+                    // setMovies( data.results )
+                    return ( data.results )
                 } )
                 .catch( error => console.log( error, "queryErrors" ) )
         }
@@ -56,7 +58,7 @@ export const HomePage = () => {
         // const signal = controller.signal
         const loadMovies = async () => {
             if ( !query ) return setMovies( [] )
-            await sleep( 450 )
+            await sleep( 400 )
             setError( false )
             if ( currentQuery ) {
                 const movies = await handleSearch( query, controller )
