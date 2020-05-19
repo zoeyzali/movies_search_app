@@ -16,7 +16,7 @@ exports.handler = async ( event, context, callback ) => {
     let response = await fetch( url )
     let data = await response.json()
     // let result = data.results
-    console.log( data, "dataFUNC", response, "resultFUNC" )
+    console.log( data, "data-lambda" )
 
     return {
         headers: {
@@ -25,7 +25,10 @@ exports.handler = async ( event, context, callback ) => {
         statusCode: 200,
         body: JSON.stringify( data )
     }
-        .catch( error => console.log( "ERROR: ", error ) )
+        .catch( error => ( {
+            statusCode: 422,
+            body: String( error )
+        } ) )
 }
 
 // async function getSearchResults( query ) {

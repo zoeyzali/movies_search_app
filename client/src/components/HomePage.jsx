@@ -65,7 +65,7 @@ export const HomePage = () => {
             fetch( `/.netlify/functions/search?query=${query}` )
                 .then( res => res.json() )
                 .then( data => {
-                    console.log( data, "search results data" )
+                    console.log( data, "search results frontend" )
                     setMovies( data.results )
                 } )
                 .catch( error => console.log( error, "query errors" ) )
