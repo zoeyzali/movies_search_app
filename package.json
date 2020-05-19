@@ -17,6 +17,7 @@
   "license": "ISC",
   "homepage": "https://github.com/zoeyzali/movies_search_app",
   "dependencies": {
-    "webpack": "4.42.0"
+    "webpack": "4.42.0",
+    "netlify-lambda": "^1.6.3"
   }
 }
