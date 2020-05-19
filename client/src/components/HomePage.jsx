@@ -17,16 +17,30 @@ export const HomePage = () => {
     useEffect( () => { focusSearch.current.focus() }, [] )
 
     const handleSearch = async ( query, controller ) => {
-        const response = await fetch( `${baseURL}/search/movie?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}&query=${query}`, { signal: controller.signal } )
-        const result = await response.json()
-        // console.log( result, "search-result" )
-        if ( result.results === [] || result.total_results === 0 ) {
-            setLoading( false )
-            return setError( true )
+        if ( process.env.NODE_ENV === "development" ) {
+            const response = await fetch( `${baseURL}/search/movie?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}&query=${query}`, { signal: controller.signal } )
+            const result = await response.json()
+            // console.log( result, "search-result" )
+            if ( result.results === [] || result.total_results === 0 ) {
+                setLoading( false )
+                return setError( true )
+            }
+            setError( false )
+            return ( result.results )
+
+        } else {
+            setLoading( true )
+            fetch( `/.netlify/functions/search?query=${query}` )
+                // if ( !query ) return setMovies( [] )
+                .then( res => res.json() )
+                .then( data => {
+                    console.log( data, "queryResults-front" )
+                    // return data
+                    setError( false )
+                    setMovies( data.results )
+                } )
+                .catch( error => console.log( error, "queryErrors" ) )
         }
-        // setMovies( result.results )
-        setError( false )
-        return ( result.results )
     }
 
     const sleep = ( ms ) => {
@@ -35,36 +49,23 @@ export const HomePage = () => {
     }
 
     useEffect( () => {
-        if ( process.env.NODE_ENV === "development" ) {
-            let currentQuery = true
-            const controller = new AbortController()
-            // const signal = controller.signal
-            const loadMovies = async () => {
-                if ( !query ) return setMovies( [] )
-                await sleep( 350 )
-                setError( false )
-                if ( currentQuery ) {
-                    const movies = await handleSearch( query, controller )
-                    setLoading( false )
-                    setMovies( movies )
-                }
+        let currentQuery = true
+        const controller = new AbortController()
+        // const signal = controller.signal
+        const loadMovies = async () => {
+            if ( !query ) return setMovies( [] )
+            await sleep( 350 )
+            setError( false )
+            if ( currentQuery ) {
+                const movies = await handleSearch( query, controller )
+                setLoading( false )
+                setMovies( movies )
             }
-            loadMovies()
-            return () => {
-                currentQuery = false
-                controller.abort()
-            }
-        } else {
-            fetch( `/.netlify/functions/search` )
-                // if ( !query ) return setMovies( [] )
-                // setError( true )
-                .then( res => res.json() )
-                .then( data => {
-                    console.log( data, "queryResults-front" )
-                    // return data
-                    setMovies( data.results )
-                } )
-                .catch( error => console.log( error, "queryErrors" ) )
+        }
+        loadMovies()
+        return () => {
+            currentQuery = false
+            controller.abort()
         }
     }, [query] )
 
