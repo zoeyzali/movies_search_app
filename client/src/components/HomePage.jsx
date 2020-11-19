@@ -14,12 +14,15 @@ export const HomePage = () => {
     const [error, setError] = useState( false )
     const focusSearch = useRef( null )
 
-    useEffect( () => { focusSearch.current.focus() }, [] )
+    useEffect( () => {
+        focusSearch.current.focus()
+    }, [] )
 
     const handleSearch = async ( query, controller ) => {
         setLoading( true )
         if ( process.env.NODE_ENV === "development" ) {
-            const response = await fetch( `${baseURL}/search/movie?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}&query=${query}`, { signal: controller.signal } )
+            const response = await fetch( `${baseURL}/search/movie?language=en-US&page=1&include_adult=false&api_key=${tmdbKey}&query=${query}`,
+                { signal: controller.signal } )
             const result = await response.json()
             // console.log( result, "search-result" )
             if ( result.results === [] || result.total_results === 0 ) {
@@ -34,7 +37,6 @@ export const HomePage = () => {
                 // if ( !query ) return setMovies( [] )
                 .then( res => res.json() )
                 .then( data => {
-                    console.log( data.results, "queryResults-front" )
                     if ( data.total_results === 0 || data.results === [] ) {
                         return setError( true )
                     }
@@ -43,7 +45,7 @@ export const HomePage = () => {
                     setMovies( data.results )
                     // return ( data.results )
                 } )
-                .catch( error => console.log( error, "queryErrors" ) )
+                .catch( error => console.log( `Query Errors ${error}` ) )
         }
     }
 
@@ -62,8 +64,8 @@ export const HomePage = () => {
             setError( false )
             if ( currentQuery ) {
                 const movies = await handleSearch( query, controller )
-                setLoading( false )
                 setMovies( movies )
+                setLoading( false )
             }
         }
         loadMovies()
@@ -73,8 +75,6 @@ export const HomePage = () => {
         }
     }, [query] )
 
-
-    // console.log( process.env.NODE_ENV, "node env" )
     useEffect( () => {
         if ( process.env.NODE_ENV === "development" ) {
             const fetchData = async () => {
@@ -86,7 +86,6 @@ export const HomePage = () => {
                         }
                     } )
                     const result = await response.json()
-                    // console.log( result.results, "result json" )
                     setMovies( result.results )
                 } catch ( error ) {
                     console.log( error )
@@ -110,8 +109,16 @@ export const HomePage = () => {
             <div className="home__inner">
                 <div className="search__wrapper">
                     <form>
-                        <input ref={focusSearch} type="search" placeholder="Search movies..." name="query" value={query} className="search__input" onChange={( e ) => setQuery(
-                            e.target.value )} />
+                        <input
+                            ref={focusSearch}
+                            type="search"
+                            placeholder="Search movies..."
+                            name="query"
+                            value={query}
+                            className="search__input"
+                            onChange={( e ) => setQuery(
+                                e.target.value )}
+                        />
                     </form>
                 </div>
                 <h3>Let's Get Us Some Movies</h3>
@@ -120,36 +127,36 @@ export const HomePage = () => {
                 </Link>
                 {loading && !movies &&
                     <div className="loading__wrapper">
-                        <h3>... la la loading!</h3>
+                        <h3>... La La Loading!</h3>
                     </div>
                 }
                 <div className="movies__list">
                     {error ? <div className="error__wrapper">
                         <h2>Oh noes, do you wanna try again?</h2>
-                        <img src={require( "../assets/2.Illustrations/illustration-empty-state.png" )} alt="empty" />
+                        <img src={require( "../assets/2.Illustrations/illustration-empty-state.png" )} alt="empty"
+                        />
                     </div>
                         : ""
                     }
-                    {movies && movies.length > 0 ?
-                        movies.map( movie => {
+                    {movies && movies.length > 0
+                        ? movies.map( movie => {
                             return (
                                 <Link to={`/movies/${movie.id}`} key={movie.id} className="movies__card">
                                     <figure>
-                                        {movie.poster_path && movie.poster_path !== null ?
-                                            <img src={`${posterUrl}/${movie.poster_path}`} alt={movie.title} />
-                                            :
-                                            <img src={`https://dummyimage.com/w185x277.5/eee/555.png&text=No+images+found`}
-                                                alt={movie.title} className="img__holder" />
+                                        {movie.poster_path && movie.poster_path !== null
+                                            ? <img src={`${posterUrl}/${movie.poster_path}`} alt={movie.title} />
+                                            : <img src={`https://dummyimage.com/w185x277.5/eee/555.png&text=No+images+found`}
+                                                alt={movie.title} className="img__holder"
+                                            />
                                         }
                                     </figure>
                                 </Link>
                             )
-                        } ) :
-                        ""
+                        } )
+                        : ""
                     }
                 </div>
             </div>
         </div>
     )
 }
-

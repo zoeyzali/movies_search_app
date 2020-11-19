@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { MoviesContext } from '../context/MoviesContext'
-
 const tmdbKey = process.env.REACT_APP_TMDB_KEY
 const baseURL = process.env.REACT_APP_BASE_URL
 
-
 export const MoviePage = ( { match } ) => {
     const { params: { id } } = match
-    // console.log( id, match, "params match id" )
     const [movie, setMovie] = useState( {} )
     const [credits, setCredits] = useState()
     const posterUrl = `https://image.tmdb.org/t/p/w500`
@@ -17,9 +14,9 @@ export const MoviePage = ( { match } ) => {
     useEffect( () => {
         const fetchMovieDetails = async () => {
             if ( process.env.NODE_ENV === "development" ) {
-                const response = await fetch( `${baseURL}/movie/${id}?api_key=${tmdbKey}&language=en-US&include_adult=false&append_to_response=videos,credits,keywords,release_dates` )
+                const response = await fetch(
+                    `${baseURL}/movie/${id}?api_key=${tmdbKey}&language=en-US&include_adult=false&append_to_response=videos,credits,keywords,release_dates` )
                 const result = await response.json()
-                // console.log( result, "details response" )
                 setMovie( result )
                 setCredits( result.credits )
             } else {
@@ -30,7 +27,7 @@ export const MoviePage = ( { match } ) => {
                         setMovie( data )
                         setCredits( data.credits )
                     } )
-                    .catch( error => console.log( error, "ERROR: MovieDetails" ) )
+                    .catch( error => console.log( `MovieDetails ERROR: ${error}` ) )
             }
         }
         fetchMovieDetails()
@@ -39,7 +36,9 @@ export const MoviePage = ( { match } ) => {
 
     const mappCast = () => {
         let allCast = credits && credits.cast.map( ( cast ) => {
-            let mainCast = cast && cast.order <= 5 ? <li key={cast.id}>{cast.name}</li> : ""
+            let mainCast = cast && cast.order <= 5
+                ? <li key={cast.id}>{cast.name}</li>
+                : ""
             // console.log( mainCast )
             return mainCast
         } )
@@ -49,7 +48,9 @@ export const MoviePage = ( { match } ) => {
     const mappCrew = () => {
         const mainCrew = credits && credits.crew.map( crew => {
             // console.log( "crew job", crew.job, "and name", crew.name )
-            let director = crew && crew.job === "Director" ? <li key={crew.id}>{crew.name}</li> : ""
+            let director = crew && crew.job === "Director"
+                ? <li key={crew.id}>{crew.name}</li>
+                : ""
             return director
         } )
         return mainCrew
@@ -57,7 +58,6 @@ export const MoviePage = ( { match } ) => {
 
     const genresMapped = () => {
         let genresList = movie.genres && movie.genres.length > 0 && movie.genres.map( genre => {
-            // console.log( genre.name, "genre mapped" )
             return genre && <li key={genre.id}>{genre.name}</li>
         } )
         return [genresList]
@@ -66,8 +66,11 @@ export const MoviePage = ( { match } ) => {
     // one hot of mess!  // varied and incomplete data // to be revised
     const certificationsMapped = () => {
         const certificationsArr = movie.release_dates && movie.release_dates.results.map( ( result, i ) => {
-            let usRating = result && result.iso_3166_1 === "US" && result.release_dates.length > 0 && result.release_dates[0].certification !== "" ? <label key={i} >{result.release_dates[0].certification !== "" ? result.release_dates[0].certification : result.release_dates[1].certification}</label> : ""
-            // console.log( result.release_dates[0], "US rating" )
+            let usRating = result && result.iso_3166_1 === "US" && result.release_dates.length > 0 && result.release_dates[0].certification !== ""
+                ? <label key={i} >{result.release_dates[0].certification !== ""
+                    ? result.release_dates[0].certification
+                    : result.release_dates[1].certification}</label>
+                : ""
             return usRating
         } )
         // let localArr = ['NC-17', 'R', 'PG', 'PG-13', 'NR']
@@ -79,21 +82,19 @@ export const MoviePage = ( { match } ) => {
     const getRatingPercentage = () => {
         let maxRating = movie.vote_count * 10
         let totalRatings = movie.vote_average * movie.vote_count
-        let percentage = Math.floor( Number( ( totalRatings / maxRating ) * 100 ) ? Math.floor( ( totalRatings / maxRating ) * 100 ) : 0 )
-        // console.log( "maxRating", maxRating, "totalRatings", totalRatings, "percentage: ", percentage )
+        let percentage = Math.floor( Number( ( totalRatings / maxRating ) * 100 )
+            ? Math.floor( ( totalRatings / maxRating ) * 100 )
+            : 0 )
         return percentage
     }
 
     const [favoriteClicked, setFavoriteClicked] = useState( false )
-
-
     const toggleFavoriteBtn = ( id ) => {
         // const filtered = favorited.filter( movie => movie.id === id )
         addToFavorites( movie )
         // console.log( filtered, "filtered" )
         setFavoriteClicked( favoriteClicked => !favoriteClicked )
     }
-
 
     return (
         <React.Fragment>
@@ -123,8 +124,11 @@ export const MoviePage = ( { match } ) => {
                                 <label className="rottenTomato__svg">
                                     {getRatingPercentage()}%
                                 </label>
-                                <button className={`${!favoriteClicked ? "heart__svg" : "active"}`} onClick={() => toggleFavoriteBtn()
-                                }>{`${!favoriteClicked ? "ADD TO FAVS" : "ADDED"}`}
+                                <button
+                                    className={`${!favoriteClicked ? "heart__svg" : "active"}`}
+                                    onClick={() => toggleFavoriteBtn()
+                                    }>
+                                    {`${!favoriteClicked ? "ADD TO FAVS" : "ADDED"}`}
                                 </button>
                             </div>
                             <div className="text__content">
@@ -144,17 +148,19 @@ export const MoviePage = ( { match } ) => {
                                 </div>
                                 <div className="director">
                                     <h3>DIRECTOR</h3>
-                                    {credits && mappCrew() ? credits && mappCrew() : "NA"}
+                                    {credits && mappCrew()
+                                        ? credits && mappCrew()
+                                        : "NA"}
                                 </div>
                             </div>
                         </div>
                         <div className="movie__info_right">
                             <figure>
-                                {movie.poster_path && movie.poster_path !== null ?
-                                    <img src={`${posterUrl}/${movie.poster_path}`} alt={movie.title} /> :
-                                    <img src={`https://dummyimage.com/w300x400/eee/555.png&text=image+NA`}
-                                        alt={movie.title} className="img__holder"
-                                    />
+                                {movie.poster_path && movie.poster_path !== null
+                                    ? <img src={`${posterUrl}/${movie.poster_path}`} alt={movie.title} />
+                                    : <img
+                                        src={`https://dummyimage.com/w300x400/eee/555.png&text=image+NA`}
+                                        alt={movie.title} className="img__holder" />
                                 }
                             </figure>
                         </div>
@@ -164,4 +170,3 @@ export const MoviePage = ( { match } ) => {
         </React.Fragment>
     )
 }
-

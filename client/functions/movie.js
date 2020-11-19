@@ -1,5 +1,4 @@
 const fetch = require( 'node-fetch' )
-
 const tmdbKey = process.env.REACT_APP_TMDB_KEY
 const baseURL = process.env.REACT_APP_BASE_URL
 // const accessToken = process.env.REACT_APP_ACCESS_TOKEN

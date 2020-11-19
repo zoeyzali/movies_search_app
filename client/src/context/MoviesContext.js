@@ -1,13 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react'
 
 export const MoviesContext = createContext()
-
 const localState = JSON.parse( localStorage.getItem( 'favorited' ) )
 
 export const MoviesContextProvider = ( props ) => {
     const [favorited, setFavorited] = useState( localState || [] )
     // const [isFavorited, setIsFavorited] = useState( false )
-
 
     const addToFavorites = ( item ) => {
         let newList = [...favorited]
@@ -29,11 +27,9 @@ export const MoviesContextProvider = ( props ) => {
         setFavorited( [...filtered] )
     }
 
-
     useEffect( () => {
         localStorage.setItem( 'favorited', JSON.stringify( favorited ) )
     }, [favorited] )
-
 
     return (
         <MoviesContext.Provider value={{
